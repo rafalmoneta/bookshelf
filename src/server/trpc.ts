@@ -22,7 +22,7 @@ import { type Session } from "next-auth";
 import { getServerAuthSession } from "./middleware/auth";
 import { prisma } from "./utils/prisma";
 
-type CreateContextOptions = {
+export type CreateContextOptions = {
   session: Session | null;
 };
 
