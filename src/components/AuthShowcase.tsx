@@ -1,11 +1,11 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { SiGithub as GithubIcon } from "react-icons/si";
-import { api } from "../utils/api";
+import { trpc } from "../utils/trpc";
 
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
 
-  const { data: secretMessage } = api.example.getSecretMessage.useQuery(
+  const { data: secretMessage } = trpc.example.getSecretMessage.useQuery(
     undefined, // no input
     { enabled: sessionData?.user !== undefined }
   );
