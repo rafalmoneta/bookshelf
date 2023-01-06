@@ -48,13 +48,14 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
+  BookLike      BookLike[]
 }
 
 model VerificationToken {
@@ -66,14 +67,26 @@ model VerificationToken {
 }
 
 model Book {
-  id          Int      @id @default(autoincrement())
-  name        String   @db.VarChar(255)
-  author      String   @db.VarChar(255)
+  id          Int        @id @default(autoincrement())
+  name        String     @db.VarChar(255)
+  author      String     @db.VarChar(255)
   image       String?
-  description String?  @db.Text
-  publisher   String?  @default("Self Published")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  description String?    @db.Text
+  publisher   String?    @default("Self Published")
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  BookLike    BookLike[]
 
   @@map(name: "books")
+}
+
+model BookLike {
+  book      Book     @relation(fields: [bookId], references: [id])
+  bookId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+
+  @@id([bookId, userId])
+  @@unique([bookId, userId])
 }

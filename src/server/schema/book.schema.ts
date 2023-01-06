@@ -22,6 +22,11 @@ export const createBookSchema = z.object({
   description: z.string().optional(),
 });
 
-export type CreateBookInput = TypeOf<typeof createBookSchema>;
-export type FilterBooksQuery = TypeOf<typeof filterBooksQuery>;
+export const likeBookSchema = z.object({
+  bookId: z.number({ required_error: "Book ID is required" }),
+});
+
 export type ParamsBookInput = TypeOf<typeof paramsBook>;
+export type FilterBooksQuery = TypeOf<typeof filterBooksQuery>;
+export type CreateBookInput = TypeOf<typeof createBookSchema>;
+export type LikeBookInput = TypeOf<typeof likeBookSchema>;

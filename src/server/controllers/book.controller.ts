@@ -3,6 +3,7 @@ import { TRPCError } from "@trpc/server";
 import type {
   CreateBookInput,
   FilterBooksQuery,
+  LikeBookInput,
   ParamsBookInput,
 } from "../schema/book.schema";
 import type { CreateContextOptions } from "../trpc";
@@ -95,6 +96,42 @@ export const getBookHandler = async ({
     return {
       status: "success",
       data: { book },
+    };
+  } catch (err: any) {
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: err.message,
+    });
+  }
+};
+
+export const likeBookHandler = async ({
+  input,
+  ctx,
+}: {
+  input: LikeBookInput;
+  ctx: CreateContextOptions;
+}) => {
+  try {
+    const userId = ctx.session?.user?.id;
+
+    if (!userId) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "User is not authorized",
+      });
+    }
+
+    const like = await prisma.bookLike.create({
+      data: {
+        bookId: input.bookId,
+        userId: userId,
+      },
+    });
+
+    return {
+      status: "success",
+      data: { like },
     };
   } catch (err: any) {
     throw new TRPCError({

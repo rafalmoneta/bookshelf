@@ -8,8 +8,6 @@ import { authOptions } from "./api/auth/[...nextauth]";
 const Home: NextPage = () => {
   const { data } = trpc.book.getBooks.useQuery({ limit: 10, page: 1 });
 
-  console.log(JSON.stringify(data?.data.books));
-
   return (
     <>
       <Layout title="Home - Fake Bookshelf">
