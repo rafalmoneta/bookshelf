@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { RouterOutputs } from "../utils/trpc";
+import BookPlaceholder from "../../public/assets/book-placeholder.svg";
 // import StatusButtons from "./StatusButtons";
 
 const BookCard = ({
@@ -17,7 +18,7 @@ const BookCard = ({
       >
         <div className="relative w-[100px] md:w-[140px]">
           <Image
-            src={book?.image}
+            src={book?.image ? book.image : BookPlaceholder}
             alt={`${book?.name} cover`}
             width={315}
             height={475}

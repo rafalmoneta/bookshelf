@@ -3,6 +3,7 @@ import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import { trpc } from "../utils/trpc";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "../styles/globals.css";
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -13,6 +14,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <ThemeProvider attribute="class">
         <Component {...pageProps} />
+        <ReactQueryDevtools initialIsOpen={false} />
       </ThemeProvider>
     </SessionProvider>
   );

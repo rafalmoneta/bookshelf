@@ -17,9 +17,9 @@ export const createBookSchema = z.object({
   author: z.string({
     required_error: "Author name is required",
   }),
-  publisher: z.string(),
+  publisher: z.string().optional(),
   image: z.any(),
-  description: z.string(),
+  description: z.string().optional(),
 });
 
 export type CreateBookInput = TypeOf<typeof createBookSchema>;

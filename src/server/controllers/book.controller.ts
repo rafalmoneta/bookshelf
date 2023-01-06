@@ -79,8 +79,6 @@ export const getBookHandler = async ({
   try {
     const user = ctx.session?.user;
 
-    console.log("trpc USER: ", user);
-
     const book = await prisma.book.findFirst({
       where: {
         id: input.bookId,

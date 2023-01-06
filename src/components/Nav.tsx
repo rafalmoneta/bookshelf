@@ -46,7 +46,7 @@ const Nav: React.FC = () => {
           <NavLink href="/discover">Discover</NavLink>
         </li>
         <li>
-          <NavLink href="/create/book">Add Book</NavLink>
+          <NavLink href="/book/create">Add Book</NavLink>
         </li>
       </ul>
     </nav>

@@ -6,8 +6,6 @@ import ThemeSwitch from "./ThemeSwitch";
 const Header = () => {
   const { data: sessionData } = useSession();
 
-  console.log(sessionData);
-
   return (
     <header className="fixed top-0 z-50 mx-auto w-[calc(100%-2rem)] bg-white py-10 dark:bg-ourblack sm:w-[calc(100%-3rem)]">
       <div className="mx-auto max-w-[1280px]">
