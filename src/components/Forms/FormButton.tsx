@@ -13,15 +13,12 @@ export const FormButton: React.FC<LoadingButtonProps> = ({
   loading = false,
 }) => {
   return (
-    <Button type="submit">
-      {loading ? (
-        <div className="flex items-center justify-center gap-3">
-          <Spinner color="fill-black" />
-          <span>Loading...</span>
-        </div>
-      ) : (
-        <span>{children}</span>
-      )}
+    <Button
+      type="submit"
+      isLoading={loading}
+      className="w-full px-4 py-2 text-base leading-none"
+    >
+      <span>{children}</span>
     </Button>
   );
 };

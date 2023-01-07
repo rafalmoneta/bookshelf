@@ -7,6 +7,7 @@ import { trpc } from "../../../utils/trpc";
 import { authOptions } from "../../api/auth/[...nextauth]";
 import Layout from "../../../components/Layout";
 import BookPlaceholder from "../../../../public/assets/book-placeholder.svg";
+import BookStatus from "../../../components/BookStatus";
 
 export default function BookPage() {
   const router = useRouter();
@@ -15,8 +16,14 @@ export default function BookPage() {
     bookId: Number(id),
   });
 
-  const book = data?.data
-    ?.book as RouterOutputs["book"]["getBook"]["data"]["book"];
+  const book = data?.book as RouterOutputs["book"]["getBook"]["book"];
+
+  // console.log(JSON.stringify(book));
+
+  // TODO: Do better loading
+  if (isLoading) {
+    return <div>Loading</div>;
+  }
 
   return (
     <Layout title="Home - Fake Bookshelf">
@@ -41,9 +48,9 @@ export default function BookPage() {
                 </i>
               </div>
             </div>
-            {/* <div className="text-gray flex bg-gray-700  p-2">
-              <StatusButtons book={book} />
-            </div> */}
+            <div className="text-gray flex p-2">
+              <BookStatus book={book} />
+            </div>
           </div>
           <div className="mt-2 min-h-[50px]">{/* TODO: */}</div>
           <br />

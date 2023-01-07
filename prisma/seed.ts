@@ -6,13 +6,11 @@ import type { BookType } from "./data/books";
 const prisma = new PrismaClient();
 
 async function createBook(bookData: BookType) {
-  let book = await prisma.book.findFirst({
+  await prisma.book.upsert({
     where: { id: bookData.id },
+    update: {},
+    create: bookData,
   });
-
-  if (!book) {
-    book = await prisma.book.create({ data: bookData });
-  }
 }
 
 async function run() {

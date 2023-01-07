@@ -58,4 +58,28 @@ export const books = [
     createdAt: "2023-01-06T20:38:55.567Z",
     updatedAt: "2023-01-06T20:38:55.567Z",
   },
+  {
+    id: 5,
+    name: "The Ruins of Gorlan",
+    author: "John Flanagan",
+    image:
+      "https://res.cloudinary.com/dapql1ru9/image/upload/v1673081207/bookshelf-api-upload/gwtrahtmxw7ngtnomjtq.jpg",
+    description:
+      "They have always scared him in the past — the Rangers, with their dark cloaks and shadowy ways. The villagers believe the Rangers practice magic that makes them invisible to ordinary people. And now 15-year-old Will, always small for his age, has been chosen as a Ranger's apprentice. What he doesn't yet realize is that the Rangers are the protectors of the kingdom. Highly trained in the skills of battle and surveillance, they fight the battles before the battles reach the people. And as Will is about to learn, there is a large battle brewing. The exiled Morgarath, Lord of the Mountains of Rain and Night, is gathering his forces for an attack on the kingdom. This time, he will not be denied",
+    publisher: "",
+    createdAt: "2023-01-07T08:46:48.981Z",
+    updatedAt: "2023-01-07T08:46:48.981Z",
+  },
+  {
+    id: 6,
+    name: "Norse Mythology",
+    author: "Neil Gaiman",
+    image:
+      "https://res.cloudinary.com/dapql1ru9/image/upload/v1673081680/bookshelf-api-upload/ai3bh2xvsczs44wzvoqr.jpg",
+    description:
+      "Neil Gaiman, long inspired by ancient mythology in creating the fantastical realms of his fiction, presents a bravura rendition of the Norse gods and their world from their origin though their upheaval in Ragnarok.\n\nIn Norse Mythology, Gaiman stays true to the myths in envisioning the major Norse pantheon: Odin, the highest of the high, wise, daring, and cunning; Thor, Odin’s son, incredibly strong yet not the wisest of gods; and Loki—son of a giant—blood brother to Odin and a trickster and unsurpassable manipulator.\n\nGaiman fashions these primeval stories into a novelistic arc that begins with the genesis of the legendary nine worlds and delves into the exploits of deities, dwarfs, and giants. Through Gaiman’s deft and witty prose, these gods emerge with their fiercely competitive natures, their susceptibility to being duped and to duping others, and their tendency to let passion ignite their actions, making these long-ago myths breathe pungent life again.",
+    publisher: "",
+    createdAt: "2023-01-07T08:54:42.102Z",
+    updatedAt: "2023-01-07T08:54:42.102Z",
+  },
 ];

@@ -75,7 +75,7 @@ model Book {
   publisher   String?    @default("Self Published")
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-  BookLike    BookLike[]
+  likes    BookLike[]
 
   @@map(name: "books")
 }

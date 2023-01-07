@@ -2,13 +2,16 @@ import Image from "next/image";
 import Link from "next/link";
 import type { RouterOutputs } from "../utils/trpc";
 import BookPlaceholder from "../../public/assets/book-placeholder.svg";
-// import StatusButtons from "./StatusButtons";
+import { HeartFilledIcon } from "./Elements/Icons";
 
 const BookCard = ({
   book,
 }: {
-  book: RouterOutputs["book"]["getBook"]["data"]["book"];
+  book: RouterOutputs["book"]["getBook"]["book"];
 }) => {
+  const isLiked = book.likes.length > 0;
+  const likeCount = book._count.likes;
+
   return (
     <div>
       <Link
@@ -28,7 +31,7 @@ const BookCard = ({
         <div className="flex-1">
           <div className="flex justify-between">
             <div className="flex-1">
-              <h2 className="m-0 text-lg font-semibold text-primary">
+              <h2 className="m-0 text-lg font-semibold text-primary line-clamp-1">
                 {book.name}
               </h2>
               <div className="">
@@ -42,15 +45,22 @@ const BookCard = ({
               </div>
               {/* RATING HERE */}
             </div>
+            <div className="">
+              <div className="inline-flex items-center gap-1.5">
+                {isLiked ? (
+                  <HeartFilledIcon className="h-4 w-4 text-red-500" />
+                ) : null}
+                {/* <span className="text-sm font-semibold tabular-nums">
+                  {likeCount}
+                </span> */}
+              </div>
+            </div>
           </div>
           <p className="mb-4 whitespace-pre-wrap pt-8 line-clamp-[5]">
             {book.description}
           </p>
         </div>
       </Link>
-      {/* <div className="ml-5 absolute right-[-20px] text-gray flex flex-col justify-around h-full">
-        <StatusButtons book={book} />
-      </div> */}
     </div>
   );
 };

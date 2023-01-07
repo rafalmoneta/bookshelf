@@ -41,14 +41,35 @@ export const createBookHandler = async ({
 
 export const getBooksHandler = async ({
   filterQuery,
+  ctx,
 }: {
   filterQuery: FilterBooksQuery;
+  ctx: CreateContextOptions;
 }) => {
   try {
     const take = filterQuery.limit || 10;
     const skip = (filterQuery.page - 1) * take;
+    const user = ctx.session?.user;
 
-    const books = await prisma.book.findMany({ skip, take });
+    const books = await prisma.book.findMany({
+      skip,
+      take,
+      include: {
+        likes: {
+          where: {
+            userId: user?.id,
+          },
+          select: {
+            userId: true,
+          },
+        },
+        _count: {
+          select: {
+            likes: true,
+          },
+        },
+      },
+    });
 
     if (!books) {
       throw new TRPCError({
@@ -58,7 +79,6 @@ export const getBooksHandler = async ({
     }
 
     return {
-      status: "success",
       results: books.length,
       data: { books },
     };
@@ -84,6 +104,21 @@ export const getBookHandler = async ({
       where: {
         id: input.bookId,
       },
+      include: {
+        likes: {
+          where: {
+            userId: user?.id,
+          },
+          select: {
+            userId: true,
+          },
+        },
+        _count: {
+          select: {
+            likes: true,
+          },
+        },
+      },
     });
 
     if (!book) {
@@ -93,10 +128,7 @@ export const getBookHandler = async ({
       });
     }
 
-    return {
-      status: "success",
-      data: { book },
-    };
+    return { book };
   } catch (err: any) {
     throw new TRPCError({
       code: "INTERNAL_SERVER_ERROR",
@@ -113,26 +145,54 @@ export const likeBookHandler = async ({
   ctx: CreateContextOptions;
 }) => {
   try {
-    const userId = ctx.session?.user?.id;
+    const user = ctx.session?.user;
 
-    if (!userId) {
+    if (!user) {
       throw new TRPCError({
         code: "UNAUTHORIZED",
         message: "User is not authorized",
       });
     }
 
-    const like = await prisma.bookLike.create({
+    return await prisma.bookLike.create({
       data: {
         bookId: input.bookId,
-        userId: userId,
+        userId: user.id,
       },
     });
+  } catch (err: any) {
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: err.message,
+    });
+  }
+};
 
-    return {
-      status: "success",
-      data: { like },
-    };
+export const unlikeBookHandler = async ({
+  input,
+  ctx,
+}: {
+  input: LikeBookInput;
+  ctx: CreateContextOptions;
+}) => {
+  try {
+    const user = ctx.session?.user;
+
+    if (!user) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "User is not authorized",
+      });
+    }
+
+    return await prisma.bookLike.delete({
+      where: {
+        bookId_userId: {
+          bookId: input.bookId,
+          userId: user.id,
+        },
+      },
+    });
   } catch (err: any) {
     throw new TRPCError({
       code: "INTERNAL_SERVER_ERROR",

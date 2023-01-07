@@ -1,36 +1,73 @@
+import { forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
+import { SpinnerIcon } from "./Icons";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: string;
-  children?: React.ReactNode;
-  type?: "submit" | "reset" | "button" | undefined;
-}
+export type ButtonVariant = "primary" | "secondary";
 
-interface ButtonVariantsType {
-  [key: string]: string;
-}
+type ButtonProps = {
+  variant?: ButtonVariant;
+  responsive?: boolean;
+  isLoading?: boolean;
+  loadingChildren?: React.ReactNode;
+} & React.ComponentPropsWithoutRef<"button">;
 
-const buttonVariants: ButtonVariantsType = {
-  primary: "bg-primary text-base",
-  // secondary: "bg-gray text-white",
-};
-
-const Button: React.FC<ButtonProps> = ({
+const buttonClasses = ({
+  responsive,
   variant = "primary",
-  children,
-  ...restProps
-}) => {
-  return (
-    <button
-      className={twMerge(
-        "w-full rounded border-none px-4 py-2 leading-none",
-        buttonVariants[variant]
-      )}
-      {...restProps}
-    >
-      {children}
-    </button>
+  disabled,
+  isLoading,
+  className,
+}: ButtonProps) => {
+  return twMerge(
+    "inline-flex items-center justify-center transition-colors rounded focus-ring",
+    responsive
+      ? "px-3 h-8 text-xs sm:px-4 sm:text-sm sm:h-button"
+      : "px-4 text-sm h-button",
+    variant === "primary" && "bg-primary",
+    variant === "secondary" && "border text-primary border-ourborder p-2",
+    (disabled || isLoading) && "opacity-50 cursor-default",
+    className
   );
 };
+
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      className,
+      variant = "primary",
+      responsive,
+      type = "button",
+      isLoading = false,
+      loadingChildren,
+      disabled,
+      children,
+      ...rest
+    },
+    forwardedRef
+  ) => {
+    return (
+      <button
+        {...rest}
+        ref={forwardedRef}
+        type={type}
+        disabled={disabled || isLoading}
+        className={buttonClasses({
+          className,
+          disabled,
+          variant,
+          responsive,
+          isLoading,
+        })}
+      >
+        {isLoading && (
+          <SpinnerIcon className="mr-2 -ml-1 h-4 w-4 animate-spin" />
+        )}
+        {isLoading && loadingChildren ? loadingChildren : children}
+      </button>
+    );
+  }
+);
+
+Button.displayName = "Button";
 
 export default Button;
