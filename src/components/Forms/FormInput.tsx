@@ -19,12 +19,10 @@ const FormInput: React.FC<InputProps> = ({
 
   return (
     <div className="mt-4 flex flex-col">
-      <label className="text-white" htmlFor={name}>
-        {label}
-      </label>
+      <label htmlFor={name}>{label}</label>
       <input
         type={type}
-        className="rounded border border-gray-400 bg-ourblack px-3 py-2"
+        className="rounded border border-gray-400 bg-transparent px-3 py-2 dark:bg-ourblack"
         {...register(name)}
         {...restProps}
       />

@@ -15,11 +15,9 @@ const FormFileUploader = ({ name, label }: { name: string; label: string }) => {
       control={control}
       render={({ field: { name } }) => (
         <div className="mt-4 flex flex-col">
-          <label className="text-white" htmlFor={name}>
-            {label}
-          </label>
+          <label htmlFor={name}>{label}</label>
           <input
-            className="rounded border border-gray-400 bg-ourblack px-3 py-2"
+            className="rounded border border-gray-400 bg-transparent px-3 py-2 dark:bg-ourblack"
             type="file"
             multiple={false}
             accept="image/jpg, image/png, image/jpeg"

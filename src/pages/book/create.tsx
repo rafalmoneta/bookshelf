@@ -88,7 +88,7 @@ export default function AddBookPage() {
 
   return (
     <Layout title="Add Book - Fake Bookshelf">
-      <div className="mb-16 pt-16 text-white xl:flex xl:w-full xl:justify-center">
+      <div className="mb-16 pt-16 xl:flex xl:w-full xl:justify-center">
         <div className="relative mx-auto w-full max-w-[600px]">
           <div className="relative mx-auto w-full max-w-[600px]">
             <h1 className="font-primary text-[35px] font-bold">
@@ -106,7 +106,7 @@ export default function AddBookPage() {
           <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmitHandler)}>
               <fieldset disabled={isLoading || isImageLoading}>
-                <div className="mb-4 text-white">
+                <div className="mb-4">
                   <div className="mx-auto -mt-4 w-full xl:max-w-[450px]">
                     <FormInput name="name" label="Book Name" />
                     <FormInput name="author" label="Author Name" />

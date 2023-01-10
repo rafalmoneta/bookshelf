@@ -38,7 +38,7 @@ const AuthShowcase: React.FC = () => {
       )}
 
       {/* TODO: delete */}
-      <p className="mt-8 text-center text-2xl text-white">
+      <p className="mt-8 text-center text-2xl text-ourblack dark:text-white">
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
         {secretMessage && <span> - {secretMessage}</span>}
       </p>

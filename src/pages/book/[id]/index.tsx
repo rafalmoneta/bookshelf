@@ -27,7 +27,7 @@ export default function BookPage() {
 
   return (
     <Layout title="Home - Fake Bookshelf">
-      <div className="mx-auto mb-4 grid max-w-[900px] grid-cols-1 gap-8 pt-16 text-white lg:grid-cols-[1fr_2fr]">
+      <div className="mx-auto mb-4 grid max-w-[900px] grid-cols-1 gap-8 pt-16 dark:text-white lg:grid-cols-[1fr_2fr]">
         <div className="relative mx-auto h-[475px] w-full max-w-[315px]">
           <Image
             src={book?.image ? book.image : BookPlaceholder}
