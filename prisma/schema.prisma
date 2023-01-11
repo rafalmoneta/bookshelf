@@ -55,7 +55,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  BookLike      BookLike[]
+  likes         BookLike[]
+  reading       BookRead[]
 }
 
 model VerificationToken {
@@ -75,7 +76,8 @@ model Book {
   publisher   String?    @default("Self Published")
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-  likes    BookLike[]
+  likes       BookLike[]
+  readers     BookRead[]
 
   @@map(name: "books")
 }
@@ -86,6 +88,26 @@ model BookLike {
   user      User     @relation(fields: [userId], references: [id])
   userId    String
   createdAt DateTime @default(now())
+
+  @@id([bookId, userId])
+  @@unique([bookId, userId])
+}
+
+enum BookStatus {
+  READING
+  READ
+  WANT_TO_READ
+}
+
+model BookRead {
+  book       Book       @relation(fields: [bookId], references: [id])
+  bookId     Int
+  user       User       @relation(fields: [userId], references: [id])
+  userId     String
+  status     BookStatus @default(READING)
+  startDate  DateTime?
+  finishDate DateTime?
+  createdAt  DateTime   @default(now())
 
   @@id([bookId, userId])
   @@unique([bookId, userId])

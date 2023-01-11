@@ -5,6 +5,7 @@ import type {
   FilterBooksQuery,
   LikeBookInput,
   ParamsBookInput,
+  UpdateBookStatusInput,
 } from "../schema/book.schema";
 import type { CreateContextOptions } from "../trpc";
 
@@ -113,6 +114,16 @@ export const getBookHandler = async ({
             userId: true,
           },
         },
+        readers: {
+          where: {
+            userId: user?.id,
+          },
+          select: {
+            userId: true,
+            status: true,
+            createdAt: true,
+          },
+        },
         _count: {
           select: {
             likes: true,
@@ -186,6 +197,107 @@ export const unlikeBookHandler = async ({
     }
 
     return await prisma.bookLike.delete({
+      where: {
+        bookId_userId: {
+          bookId: input.bookId,
+          userId: user.id,
+        },
+      },
+    });
+  } catch (err: any) {
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: err.message,
+    });
+  }
+};
+
+export const createBookStatusHandler = async ({
+  input,
+  ctx,
+}: {
+  input: LikeBookInput;
+  ctx: CreateContextOptions;
+}) => {
+  try {
+    const user = ctx.session?.user;
+
+    if (!user) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "User is not authorized",
+      });
+    }
+
+    return await prisma.bookRead.create({
+      data: {
+        bookId: input.bookId,
+        userId: user.id,
+        status: "READING",
+      },
+    });
+  } catch (err: any) {
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: err.message,
+    });
+  }
+};
+
+export const updateBookStatusHandler = async ({
+  input,
+  ctx,
+}: {
+  input: UpdateBookStatusInput;
+  ctx: CreateContextOptions;
+}) => {
+  try {
+    const user = ctx.session?.user;
+
+    if (!user) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "User is not authorized",
+      });
+    }
+
+    return await prisma.bookRead.update({
+      where: {
+        bookId_userId: {
+          bookId: input.bookId,
+          userId: user.id,
+        },
+      },
+      data: {
+        status: input.status,
+      },
+    });
+  } catch (err: any) {
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: err.message,
+    });
+  }
+};
+
+export const removeBookStatusHandler = async ({
+  input,
+  ctx,
+}: {
+  input: LikeBookInput;
+  ctx: CreateContextOptions;
+}) => {
+  try {
+    const user = ctx.session?.user;
+
+    if (!user) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "User is not authorized",
+      });
+    }
+
+    return await prisma.bookRead.delete({
       where: {
         bookId_userId: {
           bookId: input.bookId,

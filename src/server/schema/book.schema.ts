@@ -26,7 +26,13 @@ export const likeBookSchema = z.object({
   bookId: z.number({ required_error: "Book ID is required" }),
 });
 
+export const updateBookStatusSchema = z.object({
+  bookId: z.number({ required_error: "Book ID is required" }),
+  status: z.enum(["READING", "READ", "WANT_TO_READ"]),
+});
+
 export type ParamsBookInput = TypeOf<typeof paramsBook>;
 export type FilterBooksQuery = TypeOf<typeof filterBooksQuery>;
 export type CreateBookInput = TypeOf<typeof createBookSchema>;
 export type LikeBookInput = TypeOf<typeof likeBookSchema>;
+export type UpdateBookStatusInput = TypeOf<typeof updateBookStatusSchema>;
