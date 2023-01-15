@@ -23,13 +23,13 @@ const RemoveFromListButton = ({
           <Button
             variant="secondary"
             className={twMerge(
-              "ml-2 space-x-1.5 overflow-hidden transition-colors [transform:translateZ(0)]"
+              "group ml-2 space-x-1.5 overflow-hidden transition-colors [transform:translateZ(0)] hover:border-red-600"
             )}
             onClick={onRemoveFromList}
             disabled={!isInTheList}
           >
             <span className="relative block h-4 w-4 shrink-0">
-              <SmallCrossIcon className="scale-1 absolute inset-0 text-gray-50 hover:text-red-600" />
+              <SmallCrossIcon className="scale-1 text-blackhover:text-red-600 group absolute inset-0 group-hover:text-red-600 dark:text-gray-50 " />
             </span>
           </Button>
         </Tooltip.Trigger>

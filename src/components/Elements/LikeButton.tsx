@@ -83,7 +83,7 @@ const LikeButton = ({
             "max-w-[260px] rounded px-3 py-1.5 shadow-lg sm:max-w-sm"
           )}
         >
-          <p className="text-sm">Like!</p>
+          <p className="text-sm">{!isLiked ? "Like!" : "Unlike :("}</p>
         </Tooltip.Content>
       </Tooltip.Root>
     </Tooltip.Provider>

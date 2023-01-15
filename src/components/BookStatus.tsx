@@ -9,7 +9,10 @@ import updateCacheOnStatus from "../lib/updateCacheOnStatus";
 
 const BookStatus = ({ book }: { book: any }) => {
   const client = useQueryClient();
+  const today = new Date();
 
+  // TODO: Investiage if I should move these functions to buttons
+  // to keep them closer to the source (?)
   const likeMutation = trpc.book.likeBook.useMutation({
     onSuccess: (data, variables) =>
       updateCacheOnLike({ client, data, variables, action: "like" }),
@@ -20,17 +23,18 @@ const BookStatus = ({ book }: { book: any }) => {
       updateCacheOnLike({ client, data, variables, action: "unlike" }),
   }).mutateAsync;
 
-  const addToReadingList = trpc.book.createBookStatus.useMutation({
+  const { mutate: addToReadingList } = trpc.book.createBookStatus.useMutation({
     onSuccess: (data, variables) =>
       updateCacheOnStatus({ client, data, variables, status: "READING" }),
-  }).mutateAsync;
+  });
 
-  const removeFromReadingList = trpc.book.removeBookStatus.useMutation({
-    onSuccess: (data, variables) =>
-      updateCacheOnStatus({ client, data, variables }),
-  }).mutateAsync;
+  const { mutate: removeFromReadingList } =
+    trpc.book.removeBookStatus.useMutation({
+      onSuccess: (data, variables) =>
+        updateCacheOnStatus({ client, data, variables }),
+    });
 
-  const markBookAsRead = trpc.book.updateBookStatus.useMutation({
+  const { mutate: markBookAsRead } = trpc.book.updateBookStatus.useMutation({
     onSuccess: (data, variables) =>
       updateCacheOnStatus({
         client,
@@ -38,11 +42,10 @@ const BookStatus = ({ book }: { book: any }) => {
         variables,
         status: variables.status,
       }),
-  }).mutateAsync;
+  });
 
   const isLiked = book.likes.length > 0;
   const isInTheList = book.readers.length > 0;
-  const isReading = isInTheList && book.readers[0].status === "READING";
   const isRead = isInTheList && book.readers[0].status === "READ";
 
   return (
@@ -58,10 +61,18 @@ const BookStatus = ({ book }: { book: any }) => {
             isInTheList={isInTheList}
             isRead={isRead}
             onMarkAsRead={() =>
-              markBookAsRead({ bookId: book.id, status: "READ" })
+              markBookAsRead({
+                bookId: book.id,
+                status: "READ",
+                finishDate: today,
+              })
             }
             onUnMarkAsRead={() =>
-              markBookAsRead({ bookId: book.id, status: "READING" })
+              markBookAsRead({
+                bookId: book.id,
+                status: "READING",
+                finishDate: null,
+              })
             }
           />
           <RemoveFromListButton
@@ -72,7 +83,13 @@ const BookStatus = ({ book }: { book: any }) => {
       ) : (
         <AddToListButton
           isInTheList={isInTheList}
-          onAddToList={() => addToReadingList({ bookId: book.id })}
+          onAddToList={() =>
+            addToReadingList({
+              bookId: book.id,
+              startDate: today,
+              status: "READING",
+            })
+          }
         />
       )}
     </div>

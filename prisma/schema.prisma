@@ -48,15 +48,16 @@ model Session {
 }
 
 model User {
-  id            String     @id @default(cuid())
+  id            String       @id @default(cuid())
   name          String?
-  email         String?    @unique
+  email         String?      @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
   likes         BookLike[]
   reading       BookRead[]
+  ratedBooks    BookRating[]
 }
 
 model VerificationToken {
@@ -68,16 +69,17 @@ model VerificationToken {
 }
 
 model Book {
-  id          Int        @id @default(autoincrement())
-  name        String     @db.VarChar(255)
-  author      String     @db.VarChar(255)
+  id          Int          @id @default(autoincrement())
+  name        String       @db.VarChar(255)
+  author      String       @db.VarChar(255)
   image       String?
-  description String?    @db.Text
-  publisher   String?    @default("Self Published")
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  description String?      @db.Text
+  publisher   String?      @default("Self Published")
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
   likes       BookLike[]
   readers     BookRead[]
+  ratings     BookRating[]
 
   @@map(name: "books")
 }
@@ -108,6 +110,18 @@ model BookRead {
   startDate  DateTime?
   finishDate DateTime?
   createdAt  DateTime   @default(now())
+
+  @@id([bookId, userId])
+  @@unique([bookId, userId])
+}
+
+model BookRating {
+  book      Book     @relation(fields: [bookId], references: [id])
+  bookId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  rating    Int
+  createdAt DateTime @default(now())
 
   @@id([bookId, userId])
   @@unique([bookId, userId])

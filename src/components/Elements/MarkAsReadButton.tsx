@@ -28,7 +28,7 @@ const MarkAsReadButton = ({
             variant="secondary"
             className={twMerge(
               "ml-2 space-x-1.5 overflow-hidden transition-colors [transform:translateZ(0)]",
-              isRead && "border-green-600 bg-green-900"
+              isRead && "border-green-600 bg-green-200 dark:bg-green-900"
             )}
             onClick={!isRead ? onMarkAsRead : onUnMarkAsRead}
             disabled={!isInTheList}
@@ -36,11 +36,11 @@ const MarkAsReadButton = ({
             <span className="relative block h-4 w-4 shrink-0">
               {isRead ? (
                 <span>
-                  <SmallCheckIcon className="scale-1 absolute inset-0 text-gray-50 hover:text-green-600" />
+                  <SmallCheckIcon className="scale-1 absolute inset-0 text-black hover:text-green-600 dark:text-gray-50" />
                 </span>
               ) : (
                 <span>
-                  <SmallCheckIcon className="scale-1 absolute inset-0 text-gray-50 hover:text-green-600" />
+                  <SmallCheckIcon className="scale-1 absolute inset-0 text-black hover:text-green-600 dark:text-gray-50" />
                 </span>
               )}
             </span>

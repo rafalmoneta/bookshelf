@@ -8,6 +8,8 @@ import { authOptions } from "../../api/auth/[...nextauth]";
 import Layout from "../../../components/Layout";
 import BookPlaceholder from "../../../../public/assets/book-placeholder.svg";
 import BookStatus from "../../../components/BookStatus";
+import { CalendarIcon, StarIcon } from "../../../components/Elements/Icons";
+import BookRating from "../../../components/BookRating";
 
 export default function BookPage() {
   const router = useRouter();
@@ -18,7 +20,13 @@ export default function BookPage() {
 
   const book = data?.book as RouterOutputs["book"]["getBook"]["book"];
 
-  // console.log(JSON.stringify(book));
+  console.log(data?.book);
+
+  const startDate = data?.book.readers[0]?.startDate?.toDateString();
+  const finishDate = data?.book.readers[0]?.finishDate?.toDateString();
+  const userBookRating = data?.book.ratings[0]?.rating || null;
+  const isBookReadByUser = data?.book.readers[0]?.status === "READ";
+  const bookAggregatedRating = data?.book.aggregateRating;
 
   // TODO: Do better loading
   if (isLoading) {
@@ -52,7 +60,26 @@ export default function BookPage() {
               <BookStatus book={book} />
             </div>
           </div>
-          <div className="mt-2 min-h-[50px]">{/* TODO: */}</div>
+          <div className="min-h-[50px]">
+            <div className="my-2 flex items-center">
+              {isBookReadByUser ? (
+                <BookRating bookId={book.id} bookRating={userBookRating} />
+              ) : null}
+              <div className="flex items-center text-gray-500">
+                <span className="mr-1">{bookAggregatedRating || 0}</span>
+                <StarIcon className="h-6 w-6 fill-transparent peer-checked:fill-yellow-400 peer-checked:text-yellow-400" />
+              </div>
+            </div>
+            {startDate ? (
+              <div className="flex items-center text-gray-500">
+                <CalendarIcon className="w-[16px]" />
+                <span className="ml-2">{`${startDate}`}</span>
+                <span className="ml-2">{`- ${
+                  finishDate ? finishDate : "reading"
+                }`}</span>
+              </div>
+            ) : null}
+          </div>
           <br />
           <p className="block whitespace-pre-wrap">{book?.description}</p>
         </div>

@@ -20,7 +20,7 @@ const FormTextarea: React.FC<TextareaProps> = ({
     <div className="mt-4 flex flex-col">
       <label htmlFor={name}>{label}</label>
       <textarea
-        className="resize-y whitespace-pre-wrap rounded border border-gray-400 bg-transparent px-3 py-2 dark:bg-ourblack"
+        className="min-h-[300px] resize-y whitespace-pre-wrap rounded border border-gray-400 bg-transparent px-3 py-2 dark:bg-ourblack"
         {...register(name)}
         {...restProps}
       />

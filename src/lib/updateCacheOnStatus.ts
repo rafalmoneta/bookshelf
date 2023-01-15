@@ -8,7 +8,7 @@ export default function updateCacheOnStatus({
 }: {
   client: QueryClient;
   data: { userId: string };
-  variables: { bookId: number };
+  variables: { bookId: number; startDate?: Date; finishDate?: Date | null };
   status?: "READING" | "READ" | "WANT_TO_READ" | undefined;
 }) {
   client.setQueryData(
@@ -22,11 +22,26 @@ export default function updateCacheOnStatus({
       },
     ],
     (oldBook) => {
+      const startDate = variables.startDate ? variables.startDate : null;
+      const finishDate = variables.finishDate;
+
+      const oldStartDate = oldBook.book.readers[0]?.startDate;
+
       return {
         book: {
           // TODO: add type
           ...oldBook.book,
-          readers: !status ? [] : [{ status: status, userId: data.userId }],
+          ratings: !status ? [] : [...oldBook.book.ratings],
+          readers: !status
+            ? []
+            : [
+                {
+                  status: status,
+                  userId: data.userId,
+                  startDate: startDate ? startDate : oldStartDate,
+                  finishDate: finishDate,
+                },
+              ],
         },
       };
     }

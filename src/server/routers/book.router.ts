@@ -4,7 +4,9 @@ import {
   createBookStatusHandler,
   getBookHandler,
   getBooksHandler,
+  getUserBooks,
   likeBookHandler,
+  rateBookHandler,
   removeBookStatusHandler,
   unlikeBookHandler,
   updateBookStatusHandler,
@@ -14,6 +16,7 @@ import {
   filterBooksQuery,
   likeBookSchema,
   paramsBook,
+  rateBookSchema,
   updateBookStatusSchema,
 } from "./../schema/book.schema";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
@@ -35,7 +38,7 @@ export const bookRouter = createTRPCRouter({
     .input(likeBookSchema)
     .mutation(({ input, ctx }) => unlikeBookHandler({ input, ctx })),
   createBookStatus: protectedProcedure
-    .input(likeBookSchema)
+    .input(updateBookStatusSchema)
     .mutation(({ input, ctx }) => createBookStatusHandler({ input, ctx })),
   updateBookStatus: protectedProcedure
     .input(updateBookStatusSchema)
@@ -43,4 +46,10 @@ export const bookRouter = createTRPCRouter({
   removeBookStatus: protectedProcedure
     .input(likeBookSchema)
     .mutation(({ input, ctx }) => removeBookStatusHandler({ input, ctx })),
+  getUserBooks: protectedProcedure
+    .input(filterBooksQuery)
+    .query(({ input, ctx }) => getUserBooks({ filterQuery: input, ctx })),
+  rateBook: protectedProcedure
+    .input(rateBookSchema)
+    .mutation(({ input, ctx }) => rateBookHandler({ input, ctx })),
 });
