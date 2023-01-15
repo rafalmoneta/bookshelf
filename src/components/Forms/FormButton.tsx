@@ -1,5 +1,4 @@
 import Button from "../Elements/Button";
-import Spinner from "../Elements/Spinner";
 
 type LoadingButtonProps = {
   loading: boolean;

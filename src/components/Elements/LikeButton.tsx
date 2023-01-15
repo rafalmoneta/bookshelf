@@ -11,8 +11,8 @@ type LikeButtonProps = {
 };
 
 const LikeButton = ({
-  onLike = () => {},
-  onUnlike = () => {},
+  onLike = () => true,
+  onUnlike = () => true,
   isLiked = false,
 }: LikeButtonProps) => {
   const [isAnimating, setIsAnimating] = useState(false);

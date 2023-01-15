@@ -154,8 +154,6 @@ export const getBookHandler = async ({
       },
     });
 
-    console.log("aggregateRating: ", aggregateRating);
-
     if (!book) {
       throw new TRPCError({
         code: "NOT_FOUND",

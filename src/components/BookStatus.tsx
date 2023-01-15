@@ -1,5 +1,6 @@
-import { useQueryClient } from "@tanstack/react-query";
+import type { RouterOutputs } from "../utils/trpc";
 import { trpc } from "../utils/trpc";
+import { useQueryClient } from "@tanstack/react-query";
 import LikeButton from "./Elements/LikeButton";
 import AddToListButton from "./Elements/AddToListButton";
 import RemoveFromListButton from "./Elements/RemoveFromListButton";
@@ -7,7 +8,11 @@ import MarkAsReadButton from "./Elements/MarkAsReadButton";
 import updateCacheOnLike from "../lib/updateCacheOnLike";
 import updateCacheOnStatus from "../lib/updateCacheOnStatus";
 
-const BookStatus = ({ book }: { book: any }) => {
+const BookStatus = ({
+  book,
+}: {
+  book: RouterOutputs["book"]["getBook"]["book"];
+}) => {
   const client = useQueryClient();
   const today = new Date();
 
@@ -46,7 +51,7 @@ const BookStatus = ({ book }: { book: any }) => {
 
   const isLiked = book.likes.length > 0;
   const isInTheList = book.readers.length > 0;
-  const isRead = isInTheList && book.readers[0].status === "READ";
+  const isRead = isInTheList && book?.readers[0]?.status === "READ";
 
   return (
     <div>

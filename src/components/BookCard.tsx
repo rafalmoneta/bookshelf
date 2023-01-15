@@ -10,7 +10,7 @@ const BookCard = ({
   book: RouterOutputs["book"]["getBook"]["book"];
 }) => {
   const isLiked = book.likes.length > 0;
-  const likeCount = book._count.likes;
+  // const likeCount = book._count.likes;
 
   return (
     <div>

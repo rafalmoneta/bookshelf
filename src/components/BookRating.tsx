@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React from "react";
 import { twMerge } from "tailwind-merge";
 import updateCacheOnRate from "../lib/updateCacheOnRate";
 import { trpc } from "../utils/trpc";

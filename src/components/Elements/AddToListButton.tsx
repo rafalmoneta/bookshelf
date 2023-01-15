@@ -1,7 +1,7 @@
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { twMerge } from "tailwind-merge";
 import Button from "./Button";
-import { PlusIcon, SmallCheckIcon } from "./Icons";
+import { PlusIcon } from "./Icons";
 
 type AddToListButtonProps = {
   isInTheList: boolean;

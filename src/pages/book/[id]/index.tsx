@@ -20,8 +20,6 @@ export default function BookPage() {
 
   const book = data?.book as RouterOutputs["book"]["getBook"]["book"];
 
-  console.log(data?.book);
-
   const startDate = data?.book.readers[0]?.startDate?.toDateString();
   const finishDate = data?.book.readers[0]?.finishDate?.toDateString();
   const userBookRating = data?.book.ratings[0]?.rating || null;
@@ -31,6 +29,10 @@ export default function BookPage() {
   // TODO: Do better loading
   if (isLoading) {
     return <div>Loading</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
   }
 
   return (
