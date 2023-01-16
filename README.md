@@ -1,12 +1,22 @@
-# Create T3 App
+# Bookshelf
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Bookshelf is a simple application for managing your books. With it, you can easily keep track of the books you own, the books you've read, and the books you want to read.
 
-## What's next? How do I make an app with this?
+![Bookshelf](bookshelf.png)
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Features
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- [x] Add books to your library with title, author, and cover image
+- [x] Mark books as read or currently reading
+- [x] Create a reading list of books you want to read
+- [x] Like and rate books
+- [x] View book details including a summary and publication date
+- [ ] Update/Delete books from your library
+- [ ] Dark/Light Theme
+- [ ] Loadings indicators
+- [ ] and more ...
+
+## Technology Stack
 
 - [Next.js](https://nextjs.org)
 - [NextAuth.js](https://next-auth.js.org)
@@ -14,15 +24,55 @@ If you are not familiar with the different technologies used in this project, pl
 - [Tailwind CSS](https://tailwindcss.com)
 - [tRPC](https://trpc.io)
 
-## Learn More
+## Installation
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+Clone the repository:
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+```
+git clone https://github.com/rafalmoneta/bookshelf.git
+```
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+Install dependencies:
 
-## How do I deploy this?
+```
+yarn install
+```
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+Create a Postgresql database with Docker
+
+```
+docker-compose up -d
+```
+
+Setup .env file (use `env.example`) - see NextAuth guides on how to setup Discord and GitHub provider (remember to use the correct callback url)
+
+```
+DATABASE_URL=
+
+NEXTAUTH_SECRET=
+NEXTAUTH_URL=
+
+DISCORD_CLIENT_ID=
+DISCORD_CLIENT_SECRET=
+
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+```
+
+Run migrations
+
+```
+yarn prisma migrate
+```
+
+Run the application in development:
+
+```
+yarn dev
+```
+
+Visit http://localhost:3000 in your browser to use the application.
+
+### Contribution
+
+We welcome contributions to the Bookshelf project. If you have an idea for a new feature or have found a bug, please submit an issue or a pull request.
