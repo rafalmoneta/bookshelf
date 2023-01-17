@@ -11,6 +11,7 @@ Bookshelf is a simple application for managing your books. With it, you can easi
 - [x] Create a reading list of books you want to read
 - [x] Like and rate books
 - [x] View book details including a summary and publication date
+- [ ] Move to different database hosting provider (one that doesn't sleep)
 - [ ] Update/Delete books from your library
 - [ ] Dark/Light Theme
 - [ ] Loadings indicators
