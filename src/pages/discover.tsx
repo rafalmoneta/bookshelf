@@ -1,12 +1,16 @@
 import type { NextPage, GetServerSideProps } from "next";
 import { unstable_getServerSession } from "next-auth";
 import BookCard from "../components/BookCard";
+import BookCardLoading from "../components/BookCardLoading";
 import Layout from "../components/Layout";
 import { trpc } from "../utils/trpc";
 import { authOptions } from "./api/auth/[...nextauth]";
 
 const DiscoverPage: NextPage = () => {
-  const { data } = trpc.book.getBooks.useQuery({ limit: 20, page: 1 });
+  const { data, isLoading } = trpc.book.getBooks.useQuery({
+    limit: 20,
+    page: 1,
+  });
 
   return (
     <>
@@ -29,13 +33,23 @@ const DiscoverPage: NextPage = () => {
             {/* TODO: add content or image */}
           </div>
         </div>
-        <div className="mx-auto mt-8 grid list-none grid-cols-1 gap-4 p-0 lg:grid-cols-2">
-          {data?.data?.books.map((book) => (
-            <li key={book.id} aria-label={book.name}>
-              <BookCard key={book.id} book={book} />
-            </li>
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="mx-auto mt-8 grid list-none grid-cols-1 gap-4 p-0 lg:grid-cols-2">
+            {[...Array(4)].map((_, i) => (
+              <li key={i} aria-label="Loading">
+                <BookCardLoading />
+              </li>
+            ))}
+          </div>
+        ) : (
+          <div className="mx-auto mt-8 grid list-none grid-cols-1 gap-4 p-0 lg:grid-cols-2">
+            {data?.data?.books.map((book) => (
+              <li key={book.id} aria-label={book.name}>
+                <BookCard key={book.id} book={book} />
+              </li>
+            ))}
+          </div>
+        )}
       </Layout>
     </>
   );

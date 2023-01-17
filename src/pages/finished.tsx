@@ -1,12 +1,13 @@
 import type { NextPage, GetServerSideProps } from "next";
 import { unstable_getServerSession } from "next-auth";
 import BookCard from "../components/BookCard";
+import BookCardLoading from "../components/BookCardLoading";
 import Layout from "../components/Layout";
 import { trpc } from "../utils/trpc";
 import { authOptions } from "./api/auth/[...nextauth]";
 
 const FinishedPage: NextPage = () => {
-  const { data } = trpc.book.getUserBooks.useQuery({
+  const { data, isLoading } = trpc.book.getUserBooks.useQuery({
     limit: 10,
     page: 1,
     status: "READ",
@@ -37,13 +38,23 @@ const FinishedPage: NextPage = () => {
         <h2 className="font-primary text-[35px] font-bold leading-[150%] text-black dark:text-white">
           List of finished books
         </h2>
-        <div className="mx-auto mt-8 grid list-none grid-cols-1 gap-4 p-0 lg:grid-cols-2">
-          {data?.data?.books.map((book) => (
-            <li key={book.id} aria-label={book.name}>
-              <BookCard key={book.id} book={book} />
-            </li>
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="mx-auto mt-8 grid list-none grid-cols-1 gap-4 p-0 lg:grid-cols-2">
+            {[...Array(4)].map((_, i) => (
+              <li key={i} aria-label="Loading">
+                <BookCardLoading />
+              </li>
+            ))}
+          </div>
+        ) : (
+          <div className="mx-auto mt-8 grid list-none grid-cols-1 gap-4 p-0 lg:grid-cols-2">
+            {data?.data?.books.map((book) => (
+              <li key={book.id} aria-label={book.name}>
+                <BookCard key={book.id} book={book} />
+              </li>
+            ))}
+          </div>
+        )}
       </Layout>
     </>
   );

@@ -17,7 +17,7 @@ const BookCard = ({
       <Link
         href={`/book/${book.id}`}
         aria-labelledby={`book-row-book-${book.id}`}
-        className="flex gap-4 rounded-[20px] border-2 border-gray-800 p-6 py-4 hover:border-primary hover:no-underline"
+        className="flex gap-4 rounded-lg border-2 border-gray-800 p-6 py-4 hover:border-primary hover:no-underline"
       >
         <div className="relative w-[100px] md:w-[140px]">
           <Image
